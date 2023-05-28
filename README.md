@@ -1,6 +1,6 @@
 Проектная работа №12 - Mesto
 
-https://roni10morello.github.io/mesto-react/
+https://roni10morello.github.io/react-mesto-auth/
 
 Продолжение проекта одностраничного сайта, закрепление и применение на практике полученных теоретических знание из курса "Базовый JavaScript и работа с браузером"
 
