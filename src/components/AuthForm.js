@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-function AuthFrom(props) {
+function AuthForm(props) {
   return (
     <>
       <div className="authorize">
@@ -26,4 +26,4 @@ function AuthFrom(props) {
   );
 }
 
-export default AuthFrom;
+export default AuthForm;

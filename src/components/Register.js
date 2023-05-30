@@ -1,25 +1,20 @@
-import React, { useState } from "react";
-import AuthFrom from "./AuthForm";
+import React from "react";
+import { useForm } from "./hooks/useForm";
+import AuthForm from "./AuthForm";
 
 function Register({ onRegister }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  function handleChangeEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleChangePassword(e) {
-    setPassword(e.target.value);
-  }
+  const { values, handleChange } = useForm({
+    email: "",
+    password: "",
+  });
 
   function handleSubmit(e) {
     e.preventDefault();
-    onRegister({ email, password });
+    onRegister(values);
   }
 
   return (
-    <AuthFrom
+    <AuthForm
       name="register"
       title="Регистрация"
       textButton="Зарегистрироваться"
@@ -28,7 +23,7 @@ function Register({ onRegister }) {
       onSubmit={handleSubmit}
     >
       <input
-        value={email || ""}
+        value={values.email || ""}
         className="form__input form__input_form_authorize"
         type="email"
         id="email"
@@ -37,14 +32,14 @@ function Register({ onRegister }) {
         maxLength="40"
         required
         placeholder="Email"
-        onChange={handleChangeEmail}
+        onChange={handleChange}
       />
       <span
         id="email-error"
         className="form__error form__error_visible form__error_email_error"
       ></span>
       <input
-        value={password || ""}
+        value={values.password || ""}
         className="form__input form__input_form_authorize"
         type="password"
         name="password"
@@ -53,13 +48,24 @@ function Register({ onRegister }) {
         maxLength="16"
         placeholder="Пароль"
         required
-        onChange={handleChangePassword}
+        onChange={handleChange}
       />
       <span
         id="password-error"
         className="form__error form__error_visible form__error_password-error"
       ></span>
-    </AuthFrom>
+    </AuthForm>
   );
 }
 export default Register;
+
+// const [email, setEmail] = useState("");
+// const [password, setPassword] = useState("");
+
+// function handleChangeEmail(e) {
+//   setEmail(e.target.value);
+// }
+
+// function handleChangePassword(e) {
+//   setPassword(e.target.value);
+// }

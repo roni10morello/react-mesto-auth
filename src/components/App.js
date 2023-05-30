@@ -32,6 +32,9 @@ function App() {
   const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
 
   const navigate = useNavigate();
+
+ 
+
   function setUserInfo() {
     api
       .getUserInfo()
@@ -46,7 +49,6 @@ function App() {
       .getAllCArds()
       .then((card) => {
         setCards(card);
-        //console.log(card);
       })
       .catch((err) => console.log(`ALLARM ${err}`));
   }
@@ -132,22 +134,22 @@ function App() {
     setIsInfoToolTipOpen(false);
   }
 
-  function handleLogin({ email, password }) {
+  function handleLogin(inputValues) {
     auth
-      .authorize(email, password)
+      .authorize(inputValues)
       .then((data) => {
         localStorage.setItem("token", data.token);
         setIsLogin(true);
         navigate("/");
-        setUserEmail(email);
+        setUserEmail(inputValues.email);
       })
       .catch((err) => console.log(`ALLARM ${err}`));
   }
 
-  function handleRegister({ email, password }) {
+  function handleRegister(inputValues) {
     auth
-      .register(email, password)
-      .then((res) => {
+      .register(inputValues)
+      .then(() => {
         setIsSuccess(true);
         navigate("/sign-in", { replace: true });
       })
@@ -163,40 +165,48 @@ function App() {
     setIsLogin(false);
   }
 
-  const checkToken = () => {
-    const token = localStorage.getItem("token");
-    auth.checkToken(token).then((res) => {
-      if (res) {
-        setIsLogin(true);
-        setUserEmail(res.data.email);
-        navigate("/", { replace: true });
-      } else {
-        setIsLogin(false);
-      }
-    });
-  };
-
-  useEffect(() => {
-    checkToken();
-  }, []);
+//   function checkToken() {
+//     const token = localStorage.getItem("token");
+//     auth.checkToken(token).then((res) => {
+//       if (res) {
+//         setIsLogin(true);
+//         setUserEmail(res.data.email);
+//         navigate("/", { replace: true });
+//       } else {
+//         setIsLogin(false);
+//       }
+//     })
+//     .catch((err) => {
+//       console.log(`ALLARM ${err}`);
+     
+//   });
+// }
 
   // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     auth
-  //       .checkToken(token)
-  //       .then((res) => {
-  //         setIsLogin(true);
-  //         setUserEmail(res.data.email);
-  //         navigate("/", { replace: true });
-  //       })
-  //       .catch((err) => {
-  //         console.log(`ALLARM ${err}`);
-  //         setIsLogin(false);
-  //         setUserEmail("");
-  //       });
-  //   }
-  // });
+  //   checkToken();
+  // }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      auth
+        .checkToken(token)
+        .then((res) => {
+          setIsLogin(true);
+          setUserEmail(res.data.email);
+          navigate("/", { replace: true });
+        })
+        .catch((err) => {
+          console.log(`ALLARM ${err}`);
+          setIsLogin(false);
+          //setUserEmail("");
+        });
+    }
+  }, []);
+
+  // if (isLogin === null) {
+  //   return (<div className="loading">Loading</div>)
+  // }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

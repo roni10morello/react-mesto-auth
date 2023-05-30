@@ -11,17 +11,17 @@ class Auth {
     return Promise.reject(`ALLARM: ${res.status}`);
   }
 
-  authorize(email, password) {
+  authorize({email, password}) {
     return fetch(`${this._url}/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({email, password}),
     }).then((res) => this._checkError(res));
   }
 
-  register(email, password) {
+  register({email, password}) {
     return fetch(`${this._url}/signup`, {
       method: "POST",
       headers: {
